@@ -191,6 +191,16 @@
             const text = document.getElementById('userInput').value.trim();
             const translatedText = document.getElementById('translatedText');
             const playButton = document.getElementById('playAudio');
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            // Clear previous audio
+            audioPlayer.src = '';
+            
+            // Validate input
+            if (!text) {
+                translatedText.textContent = 'Please enter text to translate';
+                return;
+            }
             
             // Show loading state
             translatedText.textContent = 'Translating...';
@@ -210,7 +220,7 @@
                 });
     
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`Translation failed: ${response.status}`);
                 }
     
                 const data = await response.json();
@@ -220,19 +230,22 @@
                 }
     
                 translatedText.textContent = data.translated_text;
-                playButton.disabled = false;
                 
-                // Set up audio playback
-                const audioPlayer = document.getElementById('audioPlayer');
+                // Set up audio playback if audio data exists
                 if (data.audio) {
-                    audioPlayer.src = 'data:audio/mp3;base64,' + data.audio;
-                    playButton.onclick = function() {
+                    audioPlayer.src = `data:audio/mp3;base64,${data.audio}`;
+                    playButton.disabled = false;
+                    playButton.onclick = () => {
+                        audioPlayer.currentTime = 0; // Reset playback
                         audioPlayer.play();
                     };
+                } else {
+                    playButton.disabled = true;
                 }
             } catch (error) {
-                console.error('Error:', error);
-                translatedText.textContent = 'Error: ' + error.message;
+                console.error('Translation error:', error);
+                translatedText.textContent = `Error: ${error.message}`;
+                playButton.disabled = true;
             }
         });
     

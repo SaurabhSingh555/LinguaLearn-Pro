@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from deep_translator import GoogleTranslator
 import time
-import os
 from gtts import gTTS
 import base64
+from io import BytesIO  # Added for in-memory audio generation
+import os
 
 app = Flask(__name__)
 
@@ -36,16 +37,12 @@ def translate():
                                     target=flags[target_lang]['code'])
         translated_text = translator.translate(text)
         
-        # Generate audio for translated text
+        # Generate audio IN MEMORY (no file saving)
         tts = gTTS(translated_text, lang=flags[target_lang]['code'])
-        audio_path = f"static/audio/{time.time()}.mp3"
-        tts.save(audio_path)
-        
-        with open(audio_path, "rb") as audio_file:
-            audio_data = base64.b64encode(audio_file.read()).decode('utf-8')
-        
-        # Clean up audio file
-        os.remove(audio_path)
+        audio_bytes = BytesIO()
+        tts.write_to_fp(audio_bytes)
+        audio_bytes.seek(0)
+        audio_data = base64.b64encode(audio_bytes.read()).decode('utf-8')
         
         time.sleep(1)  # Simulating processing time
         return jsonify({
@@ -56,9 +53,6 @@ def translate():
         return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
-    if not os.path.exists('static/audio'):
-        os.makedirs('static/audio')
-    
     # Render-compatible configuration
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=False)  # debug=False for production
