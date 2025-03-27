@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaLearn Pro | AI Language Learning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-language"></i> LinguaLearn Pro</h1>
+            <p class="tagline">Break Language Barriers, Build Connections</p>
+        </header>
+
+        <section class="intro">
+            <h2>Transform Your Language Learning Journey</h2>
+            <p class="subtitle">Join over 500,000 learners who have achieved fluency with our platform</p>
+
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>8 Global Languages</h3>
+                    <p>From English to Japanese, we cover the world's most spoken languages with native-level accuracy.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI-Powered Learning</h3>
+                    <p>Our adaptive algorithms personalize your learning path based on your progress and goals.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Interactive Lessons</h3>
+                    <p>Engaging exercises that make learning feel like a conversation, not memorization.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h3>Pronunciation Coach</h3>
+                    <p>Get instant feedback on your accent and speaking skills with voice analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Daily Challenges</h3>
+                    <p>Bite-sized lessons that fit your schedule and keep you motivated every day.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Community Support</h3>
+                    <p>Connect with fellow learners and native speakers in our global community.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>Success Stories</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="quote">"I went from zero to conversational Spanish in just 3 months! The pronunciation tool was a game-changer."</div>
+                    <div class="author">
+                        <img src="{{ url_for('static', filename='testimonials/user1.jpg') }}" alt="Sarah K.">
+                        <div>
+                            <strong>Sarah K.</strong>
+                            <span>Marketing Director</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">"As a frequent traveler, this app helped me learn practical phrases that actually work in real situations."</div>
+                    <div class="author">
+                        <img src="{{ url_for('static', filename='testimonials/user2.jpg') }}" alt="James L.">
+                        <div>
+                            <strong>James L.</strong>
+                            <span>International Sales</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">"The daily reminders and progress tracking kept me motivated when self-study apps failed me before."</div>
+                    <div class="author">
+                        <img src="{{ url_for('static', filename='testimonials/user3.jpg') }}" alt="Priya M.">
+                        <div>
+                            <strong>Priya M.</strong>
+                            <span>University Student</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="translator-section">
+            <h2>Try Our Interactive Translator</h2>
+            <p>Experience the power of our translation technology - your first step toward fluency</p>
+
+            <div class="selection">
+                <div class="language-selector">
+                    <label>From:</label>
+                    <div class="dropdown">
+                        <img id="sourceFlag" src="{{ url_for('static', filename=flags['English']['flag']) }}" alt="Flag">
+                        <select id="sourceLang">
+                            {% for lang, data in flags.items() %}
+                                <option value="{{ lang }}" data-flag="{{ data['flag'] }}">{{ lang }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="language-selector">
+                    <label>To:</label>
+                    <div class="dropdown">
+                        <img id="targetFlag" src="{{ url_for('static', filename=flags['Hindi']['flag']) }}" alt="Flag">
+                        <select id="targetLang">
+                            {% for lang, data in flags.items() %}
+                                <option value="{{ lang }}" data-flag="{{ data['flag'] }}">{{ lang }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-boxes">
+                <div class="text-box">
+                    <textarea id="userInput" placeholder="Type your text here to begin learning..."></textarea>
+                </div>
+                <div class="text-box">
+                    <div id="output" class="output-box">
+                        <p id="translatedText">Your translation will appear here...</p>
+                        <button id="playAudio" class="audio-btn" disabled>
+                            <i class="fas fa-volume-up"></i> Hear Pronunciation
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="translateBtn" class="primary-btn">
+                <i class="fas fa-exchange-alt"></i> Translate Now
+            </button>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-number">500K+</div>
+                <div class="stat-label">Active Learners</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">40%</div>
+                <div class="stat-label">Faster Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Learning Support</div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-language"></i> LinguaLearn Pro
+                </div>
+                <div class="footer-links">
+                    <a href="#">About Us</a>
+                    <a href="#">Languages</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 LinguaLearn Pro. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <audio id="audioPlayer" hidden></audio>
+
+    
+    <script>
+        document.getElementById('translateBtn').addEventListener('click', async function() {
+            const sourceLang = document.getElementById('sourceLang').value;
+            const targetLang = document.getElementById('targetLang').value;
+            const text = document.getElementById('userInput').value.trim();
+            const translatedText = document.getElementById('translatedText');
+            const playButton = document.getElementById('playAudio');
+            
+            // Show loading state
+            translatedText.textContent = 'Translating...';
+            playButton.disabled = true;
+            
+            try {
+                const response = await fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        source_lang: sourceLang,
+                        target_lang: targetLang,
+                        text: text
+                    })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                const data = await response.json();
+    
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+    
+                translatedText.textContent = data.translated_text;
+                playButton.disabled = false;
+                
+                // Set up audio playback
+                const audioPlayer = document.getElementById('audioPlayer');
+                if (data.audio) {
+                    audioPlayer.src = 'data:audio/mp3;base64,' + data.audio;
+                    playButton.onclick = function() {
+                        audioPlayer.play();
+                    };
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                translatedText.textContent = 'Error: ' + error.message;
+            }
+        });
+    
+        // Flag changing functionality
+        document.getElementById('sourceLang').addEventListener('change', function() {
+            const flagPath = this.options[this.selectedIndex].getAttribute('data-flag');
+            document.getElementById('sourceFlag').src = "{{ url_for('static', filename='') }}" + flagPath;
+        });
+    
+        document.getElementById('targetLang').addEventListener('change', function() {
+            const flagPath = this.options[this.selectedIndex].getAttribute('data-flag');
+            document.getElementById('targetFlag').src = "{{ url_for('static', filename='') }}" + flagPath;
+        });
+    </script>
+</body>
+</html>
